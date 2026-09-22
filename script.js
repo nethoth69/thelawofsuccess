@@ -28,11 +28,17 @@ function openPart(index){
     <p class="eyebrow">${part.name.toUpperCase()} · ${part.range}</p>
     <h2 id="modalTitle">${part.subtitle}</h2>
     <p class="book-author">${book.title} · ${book.author}</p>
-    <p class="book-intro">This section follows the sequence shown in the book's contents. Use each entry as a reading checkpoint.</p>
-    <div class="lesson-list">${part.chapters.map((chapter,i)=>`
-      <article><span>${String(i+1).padStart(2,'0')}</span><div><h3>${chapter}</h3><p>Read this entry in the original text, then write a short summary and one practical observation.</p></div></article>`).join('')}</div>
-    <div class="apply-box"><p class="eyebrow">STUDY PROMPT</p><p>${book.apply}</p></div>
-    <p class="book-note">This page is a navigation and reflection aid. It does not replace the original book.</p>`;
+    <p class="book-intro">Select an entry to study its source-based key concepts, short summary, and one practical observation.</p>
+    <div class="lesson-list">${part.chapters.map((chapter,i)=>{
+      const note=book.notes?.[chapter];
+      return `<article class="lesson-entry"><span>${String(i+1).padStart(2,'0')}</span><div><h3>${chapter}</h3>${note?`
+        <div class="note-block"><strong>Key concepts</strong><ul>${note.keyConcepts.map(item=>`<li>${item}</li>`).join('')}</ul></div>
+        <div class="note-block"><strong>Short summary</strong><p>${note.summary}</p></div>
+        <div class="note-block practical"><strong>Practical observation</strong><p>${note.observation}</p></div>`:`
+        <p class="reading-status">The source text for this entry has not yet been converted into notes. Read the original entry and add its key concepts, short summary, and one practical observation here.</p>`}</div></article>`;
+    }).join('')}</div>
+    <div class="apply-box"><p class="eyebrow">STUDY METHOD</p><p>${book.apply}</p></div>
+    <p class="book-note">Notes are written as study aids and do not replace the original book.</p>`;
   modal.classList.add('open');
   modal.setAttribute('aria-hidden','false');
   document.body.classList.add('modal-open');

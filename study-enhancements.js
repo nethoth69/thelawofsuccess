@@ -1,0 +1,19 @@
+(function(){
+const KEY='master-key-annotations';
+const read=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
+const write=v=>localStorage.setItem(KEY,JSON.stringify(v));
+let toolbar,lastSelection='';
+const esc=v=>String(v||'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
+const toast=m=>{const old=document.querySelector('.study-toast');if(old)old.remove();const el=document.createElement('div');el.className='study-toast';el.textContent=m;document.body.appendChild(el);setTimeout(()=>el.remove(),2200);};
+function text(){return window.getSelection()?.toString().trim()||'';}
+function hide(){if(toolbar)toolbar.hidden=true;}
+function place(){if(!toolbar)return;const s=window.getSelection();if(!s||!s.rangeCount)return;const r=s.getRangeAt(0).getBoundingClientRect();toolbar.style.left=Math.max(10,r.left+r.width/2-140)+'px';toolbar.style.top=Math.max(10,r.top-54)+'px';}
+function remember(mark){const value=lastSelection||text();if(!value)return;const items=read();items.unshift({id:String(Date.now()),text:value,mark,createdAt:new Date().toISOString(),reflection:''});write(items.slice(0,300));}
+function format(cmd,mark){if(!text())return;document.execCommand(cmd,false,null);remember(mark);toast(mark+' applied');hide();}
+function reflection(){const value=lastSelection||text();if(!value)return;const wrap=document.createElement('div');wrap.className='reflection-dialog';wrap.innerHTML='<div class="reflection-card"><h3>Your reflection</h3><p>Capture what this passage means to you.</p><blockquote>'+esc(value)+'</blockquote><textarea id="reflectionText" placeholder="What did you learn? How will you apply it?"></textarea><div class="reflection-actions"><button type="button" data-cancel>Cancel</button><button type="button" class="save" data-save>Save reflection</button></div></div>';document.body.appendChild(wrap);const area=wrap.querySelector('textarea');area.focus();wrap.querySelector('[data-cancel]').onclick=()=>wrap.remove();wrap.querySelector('[data-save]').onclick=()=>{const items=read();items.unshift({id:String(Date.now()),text:value,mark:'reflection',reflection:area.value.trim(),createdAt:new Date().toISOString()});write(items.slice(0,300));wrap.remove();hide();toast('Reflection saved privately');render();};}
+function makeToolbar(){toolbar=document.createElement('div');toolbar.className='selection-toolbar';toolbar.hidden=true;toolbar.innerHTML='<button data-action="highlight">Highlight</button><button data-action="strike">Strike</button><button data-action="underline">Underline</button><button data-action="reflect">Reflect</button>';document.body.appendChild(toolbar);toolbar.onmousedown=e=>e.preventDefault();toolbar.onclick=e=>{const a=e.target.closest('button')?.dataset.action;if(a==='highlight')format('backColor','highlight');if(a==='strike')format('strikeThrough','strike');if(a==='underline')format('underline','underline');if(a==='reflect')reflection();};}
+function inspect(){const value=text();if(!value||!document.querySelector('.book-modal.open')){hide();return;}lastSelection=value;toolbar.hidden=false;place();}
+function render(){const list=document.getElementById('annotationList');if(!list)return;const items=read();list.innerHTML=items.length?items.map(i=>'<article class="annotation-item"><small>'+esc(i.mark)+' · '+new Date(i.createdAt).toLocaleDateString()+'</small><p>'+esc(i.text)+'</p>'+(i.reflection?'<p><strong>Reflection:</strong> '+esc(i.reflection)+'</p>':'')+'</article>').join(''):'<p>No saved annotations yet.</p>';}
+function init(){makeToolbar();document.addEventListener('mouseup',()=>setTimeout(inspect,0));document.addEventListener('keyup',()=>setTimeout(inspect,0));document.addEventListener('scroll',hide,{passive:true});window.addEventListener('resize',place);}
+window.studyAnnotations={read,render};window.addEventListener('DOMContentLoaded',init);
+})();

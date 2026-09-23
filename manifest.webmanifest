@@ -1,0 +1,10 @@
+{
+  "name":"The Law of Success — The Master Key",
+  "short_name":"The Master Key",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#080b10",
+  "theme_color":"#00b8b8",
+  "description":"A focused personal study and annotation companion.",
+  "icons":[{"src":"assets/pixelxcript_logo.svg","sizes":"any","type":"image/svg+xml"}]
+}

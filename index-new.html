@@ -8,13 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-.brand-logo{width:34px;height:34px;object-fit:contain;vertical-align:middle;margin-right:10px}
-.book-map{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:28px}
-.part-card{padding:26px;border:1px solid rgba(214,173,69,.28);border-radius:18px;background:rgba(255,255,255,.035);cursor:pointer;transition:transform .2s,border-color .2s}
-.part-card:hover{transform:translateY(-3px);border-color:rgba(214,173,69,.7)}
-.part-card .part-no{font:12px 'DM Mono',monospace;color:#d6ad45;letter-spacing:.12em}
-.part-card h3{margin:12px 0 10px}.part-card p{margin:0 0 16px}.part-card small{opacity:.7}
-.source-note{margin-top:26px;padding:18px;border-left:3px solid #d6ad45;background:rgba(214,173,69,.07)}
+.brand-logo{width:34px;height:34px;object-fit:contain;vertical-align:middle;margin-right:10px}.book-map{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:28px}.part-card{padding:26px;border:1px solid rgba(214,173,69,.28);border-radius:18px;background:rgba(255,255,255,.035);cursor:pointer;transition:transform .2s,border-color .2s}.part-card:hover{transform:translateY(-3px);border-color:rgba(214,173,69,.7)}.part-card .part-no{font:12px 'DM Mono',monospace;color:#d6ad45;letter-spacing:.12em}.part-card h3{margin:12px 0 10px}.part-card p{margin:0 0 16px}.part-card small{opacity:.7}.source-note{margin-top:26px;padding:18px;border-left:3px solid #d6ad45;background:rgba(214,173,69,.07)}.auth-panel{margin:28px auto;padding:26px;border:1px solid rgba(214,173,69,.35);border-radius:20px;background:rgba(255,255,255,.045)}.auth-panel form{display:grid;gap:12px;margin-top:18px}.auth-panel input{padding:13px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#111;color:inherit}.auth-panel .tool-row{display:flex;gap:10px;flex-wrap:wrap}
 </style>
 </head>
 <body><div class="grid-overlay" aria-hidden="true"></div>
@@ -26,5 +20,5 @@
 <section class="final-code shell"><p>READ · UNDERSTAND · PRACTICE · OBSERVE · REVIEW</p></section>
 </main><footer class="site-footer shell"><span>THE LAW OF SUCCESS · MASTER KEY EDITION</span><span>© <span id="year"></span></span></footer>
 <div class="book-modal" id="bookModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-backdrop" data-close-book></div><div class="modal-panel"><button class="modal-close" id="closeBook" aria-label="Close section">×</button><div class="modal-inner" id="modalContent"></div></div></div>
-<script src="script.js"></script><script src="masterkey.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="script.js"></script><script src="masterkey.js"></script><script src="supabase-app.js"></script>
 </body></html>
